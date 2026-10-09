@@ -1,1 +1,1109 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>إعدادية الرافدين للبنين</title>
+  <!-- Google Fonts & FontAwesome Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-hover: #1e40af;
+      --secondary: #059669;
+      --accent: #d97706;
+      --bg-light: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --border: #e2e8f0;
+      --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --radius: 16px;
+    }
 
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Cairo', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-light);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    /* Navbar Header */
+    header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem 1.5rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--primary);
+      font-weight: 800;
+      font-size: 1.35rem;
+    }
+
+    .logo-icon {
+      width: 45px;
+      height: 45px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+    }
+
+    .menu-btn {
+      background: none;
+      border: none;
+      font-size: 1.75rem;
+      color: var(--primary);
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+
+    .menu-btn:hover {
+      background: #f1f5f9;
+    }
+
+    /* Ticker / Urgent News Bar */
+    .ticker-bar {
+      background: #fef3c7;
+      border-bottom: 1px solid #fde68a;
+      color: #92400e;
+      padding: 0.6rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .ticker-badge {
+      background: #dc2626;
+      color: white;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+
+    .ticker-text {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Side Navigation Drawer */
+    .nav-drawer {
+      position: fixed;
+      top: 0;
+      right: -320px;
+      width: 300px;
+      height: 100%;
+      background: white;
+      box-shadow: -5px 0 25px rgba(0, 0, 0, 0.15);
+      z-index: 1001;
+      transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      padding: 2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .nav-drawer.active {
+      right: 0;
+    }
+
+    .drawer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1rem;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .drawer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .drawer-links a {
+      text-decoration: none;
+      color: var(--text-main);
+      font-weight: 600;
+      padding: 0.85rem 1rem;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: all 0.2s;
+    }
+
+    .drawer-links a:hover, .drawer-links a.active {
+      background: #eff6ff;
+      color: var(--primary);
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.4);
+      backdrop-filter: blur(2px);
+      z-index: 1000;
+      display: none;
+    }
+
+    .overlay.active {
+      display: block;
+    }
+
+    /* Layout Main Containers */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    .section {
+      display: none;
+      animation: fadeIn 0.4s ease-out;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Section Titles */
+    .section-header {
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      color: var(--primary);
+      font-weight: 800;
+      position: relative;
+      display: inline-block;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 4px;
+      background: var(--secondary);
+      border-radius: 2px;
+    }
+
+    .section-desc {
+      color: var(--text-muted);
+      margin-top: 0.75rem;
+    }
+
+    /* Hero Banner Home */
+    .hero {
+      background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+      color: white;
+      border-radius: var(--radius);
+      padding: 3.5rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 2.5rem;
+      box-shadow: var(--shadow);
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      max-width: 750px;
+      margin: 0 auto 1.5rem auto;
+      opacity: 0.9;
+    }
+
+    .principal-card {
+      background: white;
+      color: var(--text-main);
+      border-radius: var(--radius);
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 2.5rem;
+      border: 1px solid var(--border);
+    }
+
+    .principal-img {
+      width: 90px;
+      height: 90px;
+      background: #e2e8f0;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      color: var(--primary);
+      flex-shrink: 0;
+    }
+
+    /* Statistics Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      text-align: center;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+
+    .stat-icon {
+      font-size: 2rem;
+      color: var(--secondary);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-number {
+      font-size: 2.25rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .stat-label {
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    /* Tabs Filter Component */
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      padding: 0.65rem 1.5rem;
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 30px;
+      font-weight: 700;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: all 0.2s;
+    }
+
+    .tab-btn:hover, .tab-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    /* News Grid & Cards Design */
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .news-card {
+      background: white;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s;
+    }
+
+    .news-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .news-card-body {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .news-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .news-tag {
+      background: #eff6ff;
+      color: var(--primary);
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      font-weight: 700;
+    }
+
+    .news-tag.urgent {
+      background: #fef2f2;
+      color: #dc2626;
+    }
+
+    .news-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 0.75rem;
+      line-height: 1.4;
+    }
+
+    .news-excerpt {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+      flex-grow: 1;
+    }
+
+    .news-read-more {
+      align-self: flex-start;
+      background: none;
+      border: none;
+      color: var(--primary);
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0;
+    }
+
+    .news-read-more:hover {
+      color: var(--primary-hover);
+    }
+
+    /* Teachers Cards Grid */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .teacher-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s;
+    }
+
+    .teacher-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .teacher-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .teacher-avatar {
+      width: 60px;
+      height: 60px;
+      background: #dbeafe;
+      color: var(--primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .teacher-name {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .teacher-subject {
+      display: inline-block;
+      background: #ecfdf5;
+      color: var(--secondary);
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-top: 0.25rem;
+    }
+
+    .teacher-info {
+      margin: 1rem 0;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .teacher-info div {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .telegram-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: #229ed9;
+      color: white;
+      text-decoration: none;
+      padding: 0.75rem;
+      border-radius: 10px;
+      font-weight: 700;
+      transition: background 0.2s;
+      margin-top: 0.5rem;
+    }
+
+    .telegram-btn:hover {
+      background: #1d8ac0;
+    }
+
+    /* Books Section */
+    .book-card {
+      background: white;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+
+    .book-details {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .book-icon {
+      font-size: 2.25rem;
+      color: #ef4444;
+    }
+
+    .download-btn {
+      background: var(--primary);
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: background 0.2s;
+    }
+
+    .download-btn:hover {
+      background: var(--primary-hover);
+    }
+
+    /* Transfer Redirect Card */
+    .transfer-box {
+      background: white;
+      border-radius: var(--radius);
+      padding: 3rem 2rem;
+      text-align: center;
+      max-width: 650px;
+      margin: 2rem auto;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .transfer-icon {
+      font-size: 3.5rem;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .redirect-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: var(--secondary);
+      color: white;
+      padding: 0.9rem 2rem;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      text-decoration: none;
+      margin-top: 1.5rem;
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .redirect-btn:hover {
+      background: #047857;
+      transform: translateY(-2px);
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+      margin-top: 4rem;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 1.8rem; }
+      .principal-card { flex-direction: column; text-align: center; }
+      .book-card { flex-direction: column; gap: 1rem; text-align: center; }
+      .book-details { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header>
+    <div class="navbar">
+      <a href="#" class="logo" onclick="showSection('home')">
+        <div class="logo-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+        <span>إعدادية الرافدين للبنين</span>
+      </a>
+      <button class="menu-btn" id="menuBtn" aria-label="القائمة">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+
+    <!-- Ticker Urgent News -->
+    <div class="ticker-bar">
+      <span class="ticker-badge">تبليغ عاجل</span>
+      <div class="ticker-text">أهلاً بكم في الموقع الرسمي لإعدادية الرافدين للبنين - تم إطلاق بوابة نقل الطلاب والمناهج الجديدة.</div>
+    </div>
+  </header>
+
+  <!-- Overlay Backing -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- Sliding Drawer Navigation Menu -->
+  <nav class="nav-drawer" id="navDrawer">
+    <div class="drawer-header">
+      <div class="logo">
+        <div class="logo-icon"><i class="fa-solid fa-school"></i></div>
+        <span>القائمة</span>
+      </div>
+      <button class="close-btn" id="closeBtn"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <ul class="drawer-links">
+      <li><a href="#" onclick="showSection('home')" class="active" id="link-home"><i class="fa-solid fa-house"></i> الرئيسية</a></li>
+      <li><a href="#" onclick="showSection('news')" id="link-news"><i class="fa-solid fa-newspaper"></i> الأخبار والإعلانات</a></li>
+      <li><a href="#" onclick="showSection('teachers')" id="link-teachers"><i class="fa-solid fa-chalkboard-user"></i> كادر المدرسين</a></li>
+      <li><a href="#" onclick="showSection('books')" id="link-books"><i class="fa-solid fa-book-bookmark"></i> الكتب الدراسية (PDF)</a></li>
+      <li><a href="#" onclick="showSection('transfer')" id="link-transfer"><i class="fa-solid fa-right-left"></i> نقل الطلاب</a></li>
+      <li><a href="#" onclick="showSection('achievements')" id="link-achievements"><i class="fa-solid fa-trophy"></i> الإنجازات والتفوق</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Content Areas -->
+  <main>
+
+    <!-- SECTION 1: HOME -->
+    <section id="home" class="section active">
+      <div class="hero">
+        <h1>أهلاً بكم في إعدادية الرافدين للبنين</h1>
+        <p>صرح علمي وتربوي شامخ يهدف إلى بناء جيل واعٍ ومتميز علمياً وأخلاقياً، وتوفير بيئة تعليمية متكاملة لجميع طلابنا الكرام.</p>
+      </div>
+
+      <!-- Principal Card -->
+      <div class="principal-card">
+        <div class="principal-img">
+          <i class="fa-solid fa-user-tie"></i>
+        </div>
+        <div>
+          <h3 style="font-size: 1.3rem; color: var(--primary);">إدارة الإعدادية</h3>
+          <p style="font-size: 1.1rem; font-weight: 700; margin: 0.25rem 0;">الاستاذ: عدي عبد الحميد الخطيب</p>
+          <p style="color: var(--text-muted);">مدير إعدادية الرافدين للبنين حالياً - نسعى دائماً لتقديم الأفضل لطلابنا ومتابعة مسيرتهم التعليمية عن كثب.</p>
+        </div>
+      </div>
+
+      <!-- General Statistics -->
+      <div class="section-header">
+        <h2 class="section-title">إحصائيات الإعدادية</h2>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+          <div class="stat-number">650+</div>
+          <div class="stat-label">عدد الطلاب الحاليين</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fa-solid fa-user-graduate"></i></div>
+          <div class="stat-number">45+</div>
+          <div class="stat-label">الطلاب المتفوقون سنوياً</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fa-solid fa-chalkboard-teacher"></i></div>
+          <div class="stat-number">30+</div>
+          <div class="stat-label">الكادر التدريسي</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fa-solid fa-calendar-check"></i></div>
+          <div class="stat-number">1985</div>
+          <div class="stat-label">سنة التأسيس</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: NEWS -->
+    <section id="news" class="section">
+      <div class="section-header">
+        <h2 class="section-title">الأخبار والإعلانات الرسمية</h2>
+        <p class="section-desc">متابعة مستمرة لأحدث القرارات، الجداول، والتبليغات الصادرة عن إدارة المدرسة</p>
+      </div>
+
+      <div class="news-grid">
+        <div class="news-card">
+          <div class="news-card-body">
+            <div class="news-meta">
+              <span class="news-tag urgent">تنبيه هام</span>
+              <span><i class="fa-regular fa-calendar"></i> 2026/10/05</span>
+            </div>
+            <h3 class="news-title">فتح باب النقل الإلكتروني للطلاب بين المدارس</h3>
+            <p class="news-excerpt">تعلن إدارة المدرسة عن بدء التقديم على استمارة نقل الطلبة الإلكترونية للعام الدراسي الحالي عبر البوابة الرسمية...</p>
+            <button class="news-read-more" onclick="showSection('transfer')">انتقل إلى صفحة النقل <i class="fa-solid fa-arrow-left"></i></button>
+          </div>
+        </div>
+
+        <div class="news-card">
+          <div class="news-card-body">
+            <div class="news-meta">
+              <span class="news-tag">الجدول الدراسي</span>
+              <span><i class="fa-regular fa-calendar"></i> 2026/10/01</span>
+            </div>
+            <h3 class="news-title">إعلان الجدول الأسبوعي وحصص التقوية</h3>
+            <p class="news-excerpt">يمكن لجميع طلاب المراحل (الرابع، الخامس، والسادس العلمي) الاطلاع على التوزيع الأسبوعي الجديد للحصص الدراسية...</p>
+            <button class="news-read-more" onclick="alert('يمكنكم متابعة تفاصيل الجدول عبر قنوات التليجرام الخاصة بالمدرسين.')">قراءة المزيد <i class="fa-solid fa-arrow-left"></i></button>
+          </div>
+        </div>
+
+        <div class="news-card">
+          <div class="news-card-body">
+            <div class="news-meta">
+              <span class="news-tag">الكتب والمناهج</span>
+              <span><i class="fa-regular fa-calendar"></i> 2026/09/25</span>
+            </div>
+            <h3 class="news-title">تحديث مناهج المرحلة الإعدادية بصيغة PDF</h3>
+            <p class="news-excerpt">تم رفع كافة الكتب المعتمدة من موقع المناهج التربوية لسهولة التحميل والمتابعة من قبل أبنائنا الطلبة...</p>
+            <button class="news-read-more" onclick="showSection('books')">تحميل المناهج <i class="fa-solid fa-arrow-left"></i></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: TEACHERS -->
+    <section id="teachers" class="section">
+      <div class="section-header">
+        <h2 class="section-title">لوحة المدرسين والقنوات الرسمية</h2>
+        <p class="section-desc">اختر المرحلة الدراسية لعرض كادر المدرسين والقنوات الرسمية لمتابعة الدروس</p>
+      </div>
+
+      <div class="tabs">
+        <button class="tab-btn active" onclick="filterTeachers('all', this)">الكل</button>
+        <button class="tab-btn" onclick="filterTeachers('fourth', this)">الرابع العلمي</button>
+        <button class="tab-btn" onclick="filterTeachers('fifth', this)">الخامس العلمي</button>
+        <button class="tab-btn" onclick="filterTeachers('sixth', this)">السادس العلمي</button>
+      </div>
+
+      <div class="cards-grid" id="teachersContainer">
+        <div class="teacher-card" data-grade="sixth">
+          <div>
+            <div class="teacher-header">
+              <div class="teacher-avatar">م</div>
+              <div>
+                <div class="teacher-name">أ. محمد جاسم</div>
+                <span class="teacher-subject">الرياضيات</span>
+              </div>
+            </div>
+            <div class="teacher-info">
+              <div><i class="fa-solid fa-layer-group"></i> <strong>المراحل:</strong> السادس العلمي</div>
+              <div><i class="fa-solid fa-users-rectangle"></i> <strong>الشعب:</strong> أ ، ب ، ج</div>
+            </div>
+          </div>
+          <a href="https://t.me/" target="_blank" class="telegram-btn">
+            <i class="fa-brands fa-telegram"></i> القناة الرسمية على التليجرام
+          </a>
+        </div>
+
+        <div class="teacher-card" data-grade="fifth">
+          <div>
+            <div class="teacher-header">
+              <div class="teacher-avatar">ع</div>
+              <div>
+                <div class="teacher-name">أ. علي حسين</div>
+                <span class="teacher-subject">الفيزياء</span>
+              </div>
+            </div>
+            <div class="teacher-info">
+              <div><i class="fa-solid fa-layer-group"></i> <strong>المراحل:</strong> الخامس العلمي</div>
+              <div><i class="fa-solid fa-users-rectangle"></i> <strong>الشعب:</strong> أ ، ب</div>
+            </div>
+          </div>
+          <a href="https://t.me/" target="_blank" class="telegram-btn">
+            <i class="fa-brands fa-telegram"></i> القناة الرسمية على التليجرام
+          </a>
+        </div>
+
+        <div class="teacher-card" data-grade="fourth">
+          <div>
+            <div class="teacher-header">
+              <div class="teacher-avatar">أ</div>
+              <div>
+                <div class="teacher-name">أ. أحمد كمال</div>
+                <span class="teacher-subject">الكيمياء</span>
+              </div>
+            </div>
+            <div class="teacher-info">
+              <div><i class="fa-solid fa-layer-group"></i> <strong>المراحل:</strong> الرابع العلمي</div>
+              <div><i class="fa-solid fa-users-rectangle"></i> <strong>الشعب:</strong> أ ، ب ، ج ، د</div>
+            </div>
+          </div>
+          <a href="https://t.me/" target="_blank" class="telegram-btn">
+            <i class="fa-brands fa-telegram"></i> القناة الرسمية على التليجرام
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: BOOKS -->
+    <section id="books" class="section">
+      <div class="section-header">
+        <h2 class="section-title">الكتب الدراسية بصيغة PDF</h2>
+        <p class="section-desc">المناهج الدراسية الرسمية المعتمدة من موقع المديرية العامة للمناهج</p>
+      </div>
+
+      <div class="tabs">
+        <button class="tab-btn active" onclick="filterBooks('fourth-b', this)">الرابع العلمي</button>
+        <button class="tab-btn" onclick="filterBooks('fifth-b', this)">الخامس العلمي</button>
+        <button class="tab-btn" onclick="filterBooks('sixth-b', this)">السادس العلمي</button>
+      </div>
+
+      <div class="cards-grid" id="booksContainer">
+        
+        <!-- ================= الرابع العلمي ================= -->
+        <div class="book-card book-item fourth-b">
+          <div class="book-details">
+            <i class="fa-solid fa-file-pdf book-icon"></i>
+            <div>
+              <h4 style="font-size: 1.1rem;">القرآن الكريم والتربية الإسلامية</h4>
+              <p style="color: var(--text-muted); font-size: 0.85rem;">الصف الرابع العلمي</p>
+            </div>
+          </div>
+          <a href="https://manahj.edu.iq/index.php?name=Pages&op=page&pid=159" target="_blank" class="download-btn"><i class="fa-solid fa-download"></i> تحميل PDF</a>
+        </div>
+
+        <div class="book-card book-item fourth-b">
+          <div class="book-details">
+            <i class="fa-solid fa-file-pdf book-icon"></i>
+            <div>
+              <h4 style="font-size: 1.1rem;">اللغة العربية - الجزء الأول</h4>
+              <p style="color: var(--text-muted); font-size: 0.85rem;">الصف الرابع العلمي</p>
+            </div>
+          </div>
+          <a href="https://manahj.edu.iq/upload/upfile/ar/1814.pdf" target="_blank" class="download-btn"><i class="fa-solid fa-download"></i> تحميل PDF</a>
+        </div>
+
+        <div class="book-card book-item fourth-b">
+          <div class="book-details">
+            <i class="fa-solid fa-file-pdf book-icon"></i>
+            <div>
+              <h4 style="font-size: 1.1rem;">اللغة العربية - الجزء الثاني</h4>
+              <p style="color: var(--text-muted); font-size: 0.85rem;">الصف الرابع العلمي</p>
+            </div>
+          </div>
+          <a href="https://manahj.edu.iq/upload/upfile/ar/1815.pdf" target="_blank" class="download-btn"><i class="fa-solid fa-download"></i> تحميل PDF</a>
+        </div>
+
+        <div class="book-card book-item fourth-b">
+          <div class="book-details">
+            <i class="fa-solid fa-file-pdf book-icon"></i>
+            <div>
+              <h4 style="font-size: 1.1rem;">الحاسوب</h4>
+              <p style="color: var(--text-muted); font-size: 0.85rem;">الصف الرابع العلمي</p>
+            </div>
+          </div>
+          <a href="https://manahj.edu.iq/upload/upfile/ar/1818.pdf" target="_blank" class="download-btn"><i class="fa-solid fa-download"></i> تحميل PDF</a>
+        </div>
+
+        <div class="book-card book-item fourth-b">
+          <div class="book-details">
+            <i class="fa-solid fa-file-pdf book-icon"></i>
+            <div>
+              <h4 style="font-size: 1.1rem;">علم الأحياء</h4>
+              <p style="color: var(--text-muted); font-size: 0.85rem;">الصف الرابع العلمي</p>
+            </div>
+          </div>
+          <a href="https://manahj.edu.iq/upload/upfile/ar/1812.pdf" target="_blank" class="download-btn"><i class="fa-solid fa-download"></i> تحميل PDF</a>
+        </div>
+
+        <div class="book-card book-item fourth-b">
+          <div class="book-details">
+            <i class="fa-solid fa-file-pdf book-icon"></i>
+            <div>
+              <h4 style="font-size: 1.1rem;">الفيزياء</h4>
+              <p style="color: var(--text-muted); font-size: 0.85rem;">الصف الرابع العلمي</p>
+            </div>
+          </div>
+          <a href="https://manahj.edu.iq/upload/upfile/ar/1822.pdf" target="_blank" class="download-btn"><i class="fa-solid fa-download"></i> تحميل PDF</a>
+        </div>
+
+        <div class="book-card book-item fourth-b">
+          <div class="book-details">
+            <i class="fa-solid fa-file-pdf book-icon"></i>
+            <div>
+              <h4 style="font-size: 1.1rem;">الكيمياء</h4>
+              <p style="color: var(--text-muted); font-size: 0.85rem;">الصف الرابع العلمي</p>
+            </div>
+          </div>
+          <a href="https://manahj.edu.iq/upload/upfile/ar/1823.pdf" target="_blank" class="download-btn"><i class="fa-solid fa-download"></i> تحميل PDF</a>
+        </div>
+
+        <div class="book-card book-item fourth-b">
+          <div class="book-details">
+            <i class="fa-solid fa-file-pdf book-icon"></i>
+            <div>
+              <h4 style="font-size: 1.1rem;">الرياضيات</h4>
+              <p style="color: var(--text-muted); font-size: 0.85rem;">الصف الرابع العلمي</p>
+            </div>
+          </div>
+          <a href="https://manahj.edu.iq/upload/upfile/ar/1820.pdf" target="_blank" class="download-btn"><i class="fa-solid fa-download"></i> تحميل PDF</a>
+        </div>
+
+        <div class="book-card book-item fourth-b">
+          <div class="book-details">
+            <i class="fa-solid fa-file-pdf book-icon"></i>
+            <div>
+              <h4 style="font-size: 1.1rem;">جرائم حزب البعث</h4>
+              <p style="color: var(--text-muted); font-size: 0.85rem;">الصف الرابع العلمي</p>
+            </div>
+          </div>
+          <a href="https://manahj.edu.iq/upload/upfile/ar/1817.pdf" target="_blank" class="download-btn"><i class="fa-solid fa-download"></i> تحميل PDF</a>
+        </div>
+
+        <!-- ================= الخامس العلمي ================= -->
+        <div class="book-card book-item fifth-b" style="display:none;">
+          <div class="book-details">
+            <i class="fa-solid fa-file-pdf book-icon"></i>
+            <div>
+              <h4 style="font-size: 1.1rem;">الفيزياء</h4>
+              <p style="color: var(--text-muted); font-size: 0.85rem;">الصف الخامس العلمي</p>
+            </div>
+          </div>
+          <a href="https://manahj.edu.iq/index.php?name=Pages&op=page&pid=161" target="_blank" class="download-btn"><i class="fa-solid fa-download"></i> تحميل PDF</a>
+        </div>
+
+        <!-- ================= السادس العلمي ================= -->
+        <div class="book-card book-item sixth-b" style="display:none;">
+          <div class="book-details">
+            <i class="fa-solid fa-file-pdf book-icon"></i>
+            <div>
+              <h4 style="font-size: 1.1rem;">الكيمياء</h4>
+              <p style="color: var(--text-muted); font-size: 0.85rem;">الصف السادس العلمي</p>
+            </div>
+          </div>
+          <a href="https://manahj.edu.iq/index.php?name=Pages&op=page&pid=161" target="_blank" class="download-btn"><i class="fa-solid fa-download"></i> تحميل PDF</a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 5: TRANSFER -->
+    <section id="transfer" class="section">
+      <div class="section-header">
+        <h2 class="section-title">نقل الطلبة الإلكتروني</h2>
+      </div>
+
+      <div class="transfer-box">
+        <div class="transfer-icon"><i class="fa-solid fa-arrow-right-arrow-left"></i></div>
+        <h2>بوابة نقل الطلبة بين المدارس</h2>
+        <p style="color: var(--text-muted); margin-top: 1rem;">
+          يمكنكم التوجه إلى البوابة الإلكترونية الرسمية المخصصة لنقل الطلبة ومتابعة الاستمارة والتعليمات عبر الرابط أدناه.
+        </p>
+        <a href="https://karbala.edu.iq/student-transfer.html" target="_blank" class="redirect-btn">
+          الانتقال إلى موقع النقل الإلكتروني <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </a>
+      </div>
+    </section>
+
+    <!-- SECTION 6: ACHIEVEMENTS -->
+    <section id="achievements" class="section">
+      <div class="section-header">
+        <h2 class="section-title">الإنجازات والطلاب المتفوقون</h2>
+        <p class="section-desc">نعتز بفخر بإنجازات طلاب إعدادية الرافدين للبنين المتفوقين</p>
+      </div>
+
+      <div class="cards-grid">
+        <div class="achievement-card">
+          <div class="achievement-icon"><i class="fa-solid fa-award"></i></div>
+          <div>
+            <h3>نسب نجاح عالية في الامتحانات الوزارية</h3>
+            <p style="color: var(--text-muted); margin-top: 0.25rem;">حققت الإعدادية المراكز الأولى على مستوى المحافظة في الامتحانات العامة للسادس العلمي.</p>
+          </div>
+        </div>
+
+        <div class="achievement-card">
+          <div class="achievement-icon"><i class="fa-solid fa-medal"></i></div>
+          <div>
+            <h3>تكريم الطلاب المتفوقين</h3>
+            <p style="color: var(--text-muted); margin-top: 0.25rem;">إقامة احتفاليات سنوية لتكريم الأوائل وتحفيزهم على مواصلة التفوق الأكاديمي.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>جميع الحقوق محفوظة &copy; 2026 - إعدادية الرافدين منصة أفق</p>
+  </footer>
+
+  <!-- Interactivity Script -->
+  <script>
+    const menuBtn = document.getElementById('menuBtn');
+    const closeBtn = document.getElementById('closeBtn');
+    const navDrawer = document.getElementById('navDrawer');
+    const overlay = document.getElementById('overlay');
+
+    function toggleMenu() {
+      navDrawer.classList.toggle('active');
+      overlay.classList.toggle('active');
+    }
+
+    menuBtn.addEventListener('click', toggleMenu);
+    closeBtn.addEventListener('click', toggleMenu);
+    overlay.addEventListener('click', toggleMenu);
+
+    function showSection(sectionId) {
+      const sections = document.querySelectorAll('.section');
+      sections.forEach(sec => sec.classList.remove('active'));
+
+      document.getElementById(sectionId).classList.add('active');
+
+      const links = document.querySelectorAll('.drawer-links a');
+      links.forEach(link => link.classList.remove('active'));
+      const activeLink = document.getElementById('link-' + sectionId);
+      if(activeLink) activeLink.classList.add('active');
+
+      navDrawer.classList.remove('active');
+      overlay.classList.remove('active');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function filterTeachers(grade, btn) {
+      const tabs = btn.parentElement.querySelectorAll('.tab-btn');
+      tabs.forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+
+      const cards = document.querySelectorAll('#teachersContainer .teacher-card');
+      cards.forEach(card => {
+        if (grade === 'all' || card.dataset.grade === grade) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function filterBooks(classGroup, btn) {
+      const tabs = btn.parentElement.querySelectorAll('.tab-btn');
+      tabs.forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+
+      const books = document.querySelectorAll('#booksContainer .book-item');
+      books.forEach(book => {
+        if (book.classList.contains(classGroup)) {
+          book.style.display = 'flex';
+        } else {
+          book.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>
